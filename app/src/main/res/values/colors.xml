@@ -1,0 +1,113 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<resources>
+<!--  <color name="colorPrimary">#84ffff</color>-->
+<!--  <color name="colorPrimaryLight">#baffff</color>-->
+<!--  <color name="colorPrimaryDark">#4bcbcc</color>-->
+<!--  <color name="colorSecondary">#fafafa</color>-->
+<!--  <color name="colorSecondaryLight">#ffffff</color>-->
+<!--  <color name="colorSecondaryDark">#c7c7c7</color>-->
+<!--  <color name="colorPrimaryText">#000000</color>-->
+<!--  <color name="colorSecondaryText">#000000</color>-->
+
+
+
+<!--  <color name="colorPrimary">#2c86ff</color>-->
+<!--  <color name="colorPrimaryLight">#76b5ff</color>-->
+<!--  <color name="colorPrimaryDark">#005acb</color>-->
+<!--  <color name="colorSecondary">#3ecdff</color>-->
+<!--  <color name="colorSecondaryLight">#81ffff</color>-->
+<!--  <color name="colorSecondaryDark">#009ccc</color>-->
+<!--  <color name="colorPrimaryText">#000000</color>-->
+<!--  <color name="colorSecondaryText">#ffffff</color>-->
+<!--  <color name="colorAccent">#3ecdff</color>-->
+  <color name="colorPrimary">#2a96ff</color>
+  <color name="colorPrimaryLight">#74c6ff</color>
+  <color name="colorPrimaryDark">#0069cb</color>
+  <color name="colorSecondary">#0069cb</color>
+  <color name="colorSecondaryLight">#5c96ff</color>
+  <color name="colorSecondaryDark">#003f99</color>
+  <color name="colorPrimaryText">#ffffff</color>
+  <color name="colorSecondaryText">#ffffff</color>
+  <color name="colorAccent">#2a96ff</color>
+
+  <color name="colorWhite">#ffffff</color>
+  <color name="colorBlack">#000000</color>
+  <color name="colorGray">#3C3C3C</color>
+
+  <color name="colorPrimaryTrans">#802a96ff</color>
+  <color name="color_black_trans">#4D000000</color>
+  <color name="colorPrimary_trans">#8084ffff</color>
+  <color name="white_trans">#80ffffff</color>
+
+  <color name="transparent">#00000000</color>
+  <color name="colorBackground">#f3f6ff</color>
+
+  <color name="color_light_gray">#D3D3D3</color>
+  <color name="color_gray">	#808080</color>
+  <color name="color_dark_gray">#A9A9A9</color>
+
+  <color name="colorTextLightGrey">#dddddd</color>
+  <color name="colorDefaultBgColor">#fafafa</color>
+  <color name="color_grey_stroke">#d4d3d3</color>
+  <color name="color_grey_stroke_dark">#bcbbbb</color>
+  <color name="color_edt_grey">#eeeeee</color>
+  <color name="color_edt_grey_dark">#dddddd</color>
+  <color name="color_white_press">#bcbbbb</color>
+  <color name="color_border">#dedede</color>
+  <color name="color_green_text">#81cd50</color>
+  <color name="color_danger">#ce6565</color>
+  <color name="color_danger_dark">#af4d4d</color>
+  <color name="color_blue">#0548b3</color>
+  <color name="color_red">#ff0000</color>
+  <color name="color_white_trans">#ffffff</color>
+  <color name="color_noti_background">#F4F4F4</color>
+
+
+
+  <color name="color_et_normal">#6D6D6D</color>
+  <color name="color_et_focus">#575656</color>
+
+  <color name="color_rated_card">#E0DEDE</color>
+  <color name="color_cancel">#ECF0F1</color>
+
+  <color name="background">#70898D</color>
+
+  <color name="colorDarkBlue">#3B5998</color>
+  <color name="colorLightViolet">#F5E6FE</color>
+  <color name="colorLightBlue">#E1E2FE</color>
+  <color name="colorGold">#FFAA00</color>
+
+  <color name="colorRecyclerBgLight">#F0F6F8</color>
+  <color name="colorTransparent">#00000000</color>
+  <color name="colorBlackTransparent">#292929</color>
+  <color name="colorView">#DDDDDD</color>
+  <color name="colorVioletDark">#8030BA</color>
+
+  <color name="color_1">#5a61f9</color>
+  <color name="color_2">#6565f7</color>
+  <color name="color_3">#8572f3</color>
+  <color name="color_4">#a27de7</color>
+  <color name="color_5">#A27DEF</color>
+  <color name="color_6">#EB99E5</color>
+  <color name="colorModernBlue">#5961F9</color>
+  <color name="colorRed">#bd081c</color>
+
+  <color name="color_palette1">#ffb3ba</color>
+  <color name="color_palette2">#ffdfba</color>
+  <color name="color_palette3">#FAD88F</color>
+  <color name="color_palette4">#baffc9</color>
+  <color name="color_palette5">#bae1ff</color>
+
+  <color name="color_palette3trans">#4DFAD88F</color>
+
+  <color name="color_dark_palette1">#2e2b2e</color>
+  <color name="color_dark_palette2">#2b2645</color>
+  <color name="color_dark_palette3">#182733</color>
+  <color name="color_dark_palette4">#3b4f5e</color>
+  <color name="color_dark_palette5">#2c2b31</color>
+
+  <color name="colorLine">#cbcbcb</color>
+  <color name="colorLineFocused">#B4B4B4</color>
+
+  <color name="color_app_background">#F7F9FC</color>
+</resources>

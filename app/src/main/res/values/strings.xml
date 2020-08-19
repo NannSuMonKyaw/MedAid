@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">MedAid</string>
+    <string name="title_treatment">Treatment</string>
+    <string name="title_diagnose">Checkup</string>
+    <string name="title_profile">Profile</string>
+
+
+    <string name="diagnose_activity_label">Choose Symptoms</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="head_symptoms_prefs_key">head symptoms</string>
+    <string name="title_activity_choose_body_symptom">ChooseBodySymptomActivity</string>
+
+    <string name="am">at morning</string>
+    <string name="od">one time</string>
+    <string name="bd">two times</string>
+    <string name="tds">three times</string>
+    <string name="hs">at bedtime</string>
+    <string name="adlib">at the desired time</string>
+    <string name="fourTimes">four times</string>
+
+    <string-array name="medicine_type">
+        <item>Tablet</item>
+        <item>Ointment</item>
+        <item>Inhaler</item>
+        <item>Drop</item>
+    </string-array>
+    <string-array name="medication_frequency">
+        <item>@string/am</item>
+        <item>@string/od</item>
+        <item>@string/bd</item>
+        <item>@string/tds</item>
+        <item>@string/hs</item>
+        <item>@string/adlib</item>
+        <item>four times</item>
+    </string-array>
+</resources>

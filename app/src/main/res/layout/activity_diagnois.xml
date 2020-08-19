@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activites.DiagnoisActivity"
+    android:background="@color/colorWhite">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"  >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/txt_size_x_large"
+                    android:text="MedAid"
+                    android:fontFamily="@font/pacifico_regular"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    />
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/curve_top_bg"
+        android:layout_marginTop="?actionBarSize"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+    <LinearLayout
+        android:id="@+id/layout_disease"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:layout_marginHorizontal="@dimen/margin_normal"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You may be suffering"
+            android:textSize="@dimen/txt_size_large"
+            android:textColor="@color/colorBlack"
+            android:layout_margin="@dimen/margin_xsmall"
+            android:padding="@dimen/padding_6"/>
+
+        <TextView
+            android:id="@+id/tv_disease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_normal"
+            android:layout_marginVertical="@dimen/margin_xsmall"
+            android:padding="@dimen/padding_6"
+            android:text="Headache"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/share_bold"
+            android:textSize="@dimen/txt_size_ex_large"
+            />
+        <TextView
+            android:id="@+id/tv_disease_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:padding="@dimen/padding_6"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/txt_size_small"
+            android:visibility="gone"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            android:layout_margin="@dimen/margin_small"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/txt_size_large"
+            android:textColor="@color/colorBlack"
+            android:padding="@dimen/padding_6"
+            android:text="You can take the following medicines to get better : "
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_medicine_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_no_disease"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginHorizontal="@dimen/margin_normal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/notify"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="@dimen/padding_6"
+                android:textSize="@dimen/txt_size_large"
+                android:textColor="@color/colorPrimary"
+                android:text="You may not added enough symptom or we may not be provided diagnosis of your suffering disease."
+            />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"
+                android:layout_margin="@dimen/margin_small"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="@dimen/padding_6"
+                android:textSize="@dimen/txt_size_ex_large"
+                android:textColor="@color/colorPrimary"
+                android:text="Do you want to diagnose again?"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal"
+                />
+            <Button
+                android:id="@+id/btn_diagnose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_shape_round"
+                android:text="Diagnose"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_normal"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@drawable/curve_bottom_bg"-->
+<!--        android:layout_gravity="bottom"/>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
