@@ -20,6 +20,9 @@
     <string name="hs">at bedtime</string>
     <string name="adlib">at the desired time</string>
     <string name="fourTimes">four times</string>
+    <string name="selectDays">Select Days</string>
+    <string name="daysInterval">Days Interval</string>
+    <string name="once">Once</string>
 
     <string-array name="medicine_type">
         <item>Tablet</item>
@@ -35,5 +38,11 @@
         <item>@string/hs</item>
         <item>@string/adlib</item>
         <item>four times</item>
+    </string-array>
+
+    <string-array name="schedule_type">
+        <item>@string/once</item>
+        <item>@string/selectDays</item>
+        <item>@string/daysInterval</item>
     </string-array>
 </resources>

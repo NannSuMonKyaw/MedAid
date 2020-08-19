@@ -2,8 +2,8 @@ package com.nsmk.thesis.medaid.activites;
 
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,17 +11,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.nsmk.thesis.medaid.R;
 import com.nsmk.thesis.medaid.common.BaseActivity;
+import com.nsmk.thesis.medaid.model.MedicineAlarm;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -47,6 +49,12 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
 
     @BindView(R.id.frequency_layout4)
     LinearLayout frequencyLayout4;
+
+    @BindView(R.id.schedule_dayOfWeek_layout)
+    LinearLayout scheduleLayoutDayOfWeek;
+
+    @BindView(R.id.schedule_days_interval_layout)
+    LinearLayout scheduleLayoutDaysInterval;
 
     @BindView(R.id.et_time_layout1)
     EditText etTime1;
@@ -102,17 +110,26 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
     @BindView(R.id.btn_save)
     Button btnSave;
 
-    @BindView(R.id.et_start_date)
-    EditText etStartDate;
+    @BindView(R.id.np_days_interval)
+    NumberPicker numberPicker;
 
-    @BindView(R.id.et_end_date)
-    EditText etEndDate;
+    @BindView(R.id.spinner_repeat_schedule)
+    Spinner spinnerSchedule;
 
-    private String medicineName, frequency;
-    ArrayAdapter<CharSequence> medicineTypeAdapter, medicationFrequencyAdapter;
+//    @BindView(R.id.et_start_date)
+//    EditText etStartDate;
+//
+//    @BindView(R.id.et_end_date)
+//    EditText etEndDate;
+
+    private String medicineName,medicineType, frequency,scheduleType;
+    ArrayAdapter<CharSequence> medicineTypeAdapter, medicationFrequencyAdapter,scheduleTypeAdapter;
+    private int daysInterval=0;
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private int et1Hour=0,et2Hour=0,et3Hour=0,et4Hour=0;
-    private int et1Minute=00,et2Minute=00,et3Minute=00,et4Minute=00;
+    private int et1Hour=-1,et2Hour=-1,et3Hour=-1,et4Hour=-1;
+    private int et1Minute=-1,et2Minute=-1,et3Minute=-1,et4Minute=-1;
+    private boolean recurring=false;
+    private float doseOfet1,doseOfet2,doseOfet3,doseOfet4;
 
     @Override
     protected int getLayoutResource() {
@@ -148,7 +165,7 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
         spinnerMedicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                medicineName = parent.getItemAtPosition(position).toString();
+                medicineType = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -176,47 +193,86 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                 if (frequency.equals(getString(R.string.am))) {
                     setLayoutVisibilty(true, false, false, false);
                     et1Hour=8;
-                    et1Minute=00;
-                    etTime1.setText("8:00 am");
+                    et1Minute=0;
+                    et2Hour=-1;
+                    et3Hour=-1;
+                    et4Hour=-1;
+                    et2Minute=-1;
+                    et3Minute=-1;
+                    et4Minute=-1;
+                    etTime1.setText("8:00 AM");
                 } else if (frequency.equals(getString(R.string.od))) {
                     setLayoutVisibilty(true, false, false, false);
                     et1Hour=12;
-                    et1Minute=00;
-                    etTime1.setText("12:00 pm");
+                    et1Minute=0;
+                    et2Hour=-1;
+                    et3Hour=-1;
+                    et4Hour=-1;
+                    et2Minute=-1;
+                    et3Minute=-1;
+                    et4Minute=-1;
+                    etTime1.setText("12:00 PM");
                 } else if (frequency.equals(getString(R.string.bd))) {
                     setLayoutVisibilty(true, true, false, false);
                     et1Hour=12;
-                    et1Minute=00;
-                    etTime1.setText("12:00 pm");
+                    et1Minute=0;
+                    etTime1.setText("12:00 PM");
                     et2Hour=18;
-                    et2Minute=00;
-                    etTime2.setText("6:00 pm");
+                    et2Minute=0;
+                    et3Hour=-1;
+                    et4Hour=-1;
+                    et3Minute=-1;
+                    et4Minute=-1;
+                    etTime2.setText("6:00 PM");
                 } else if (frequency.equals(getString(R.string.tds))) {
                     setLayoutVisibilty(true, true, true, false);
                     et1Hour=8;
-                    etTime1.setText("8:00 am");
+                    et1Minute=0;
+                    etTime1.setText("8:00 AM");
+                    et2Minute=0;
                     et2Hour=12;
-                    etTime2.setText("12:00 pm");
+                    etTime2.setText("12:00 PM");
                     et3Hour=18;
-                    etTime3.setText("6:00pm");
+                    et3Minute=0;
+                    etTime3.setText("6:00 PM");
+                    et4Hour=-1;
+                    et4Minute=-1;
                 } else if (frequency.equals(getString(R.string.fourTimes))) {
                     setLayoutVisibilty(true, true, true, true);
                     et1Hour=8;
                     et2Hour=12;
                     et3Hour=18;
                     et4Hour=22;
-                    etTime1.setText("8:00 am");
-                    etTime2.setText("12:00 pm");
-                    etTime3.setText("6:00pm");
-                    etTime4.setText("10:00pm");
+                    et1Minute=0;
+                    et2Minute=0;
+                    et3Minute=0;
+                    et4Minute=0;
+                    etTime1.setText("8:00 AM");
+                    etTime2.setText("12:00 PM");
+                    etTime3.setText("6:00 PM");
+                    etTime4.setText("10:00 PM");
                 } else if (frequency.equals(getString(R.string.hs))) {
                     setLayoutVisibilty(true, false, false, false);
                     et1Hour=22;
-                    etTime1.setText("10:00 pm");
+                    et1Minute=0;
+                    et2Hour=-1;
+                    et3Hour=-1;
+                    et4Hour=-1;
+                    et2Minute=-1;
+                    et3Minute=-1;
+                    et4Minute=-1;
+                    etTime1.setText("10:00 PM");
                 } else if (frequency.equals(getString(R.string.adlib))) {
                     setLayoutVisibilty(true, false, false, false);
                     et1Hour=12;
-                    etTime1.setText("12:00pm");
+                    et1Minute=0;
+                    et2Hour=-1;
+                    et3Hour=-1;
+                    et4Hour=-1;
+                    et2Minute=-1;
+                    et3Minute=-1;
+                    et4Minute=-1;
+                    etTime1.setText("12:00 PM");
                 }
             }
 
@@ -227,14 +283,107 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
         });
 
 
+        //Schedule Type Adapter
+        scheduleTypeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.schedule_type, android.R.layout.simple_spinner_item);
+
+        scheduleTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerSchedule.setAdapter(scheduleTypeAdapter);
+
+        spinnerSchedule.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                scheduleType = parent.getItemAtPosition(position).toString();
+                Log.i("frequency", scheduleType);
+
+                if(scheduleType.equals(getString(R.string.once))){
+                    daysInterval=0;
+                    recurring=false;
+                    scheduleLayoutDayOfWeek.setVisibility(View.GONE);
+                    scheduleLayoutDaysInterval.setVisibility(View.GONE);
+                }
+                else if(scheduleType.equals(getString(R.string.selectDays))){
+                    daysInterval=1;
+                    recurring=true;
+                    scheduleLayoutDayOfWeek.setVisibility(View.VISIBLE);
+                    scheduleLayoutDaysInterval.setVisibility(View.GONE);
+                }
+                else if(scheduleType.equals(getString(R.string.daysInterval))){
+                    daysInterval=numberPicker.getValue();
+                    recurring=false;
+                    scheduleLayoutDayOfWeek.setVisibility(View.GONE);
+                    scheduleLayoutDaysInterval.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(365);
+
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                daysInterval=numberPicker.getValue();
+                Toast.makeText(CreateMedicineAlarmActivity.this,
+                        "selected number "+daysInterval, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
         etTime1.setOnClickListener(this);
         etTime2.setOnClickListener(this);
         etTime3.setOnClickListener(this);
         etTime4.setOnClickListener(this);
-        etStartDate.setOnClickListener(this);
-        etEndDate.setOnClickListener(this);
+//        etStartDate.setOnClickListener(this);
+//        etEndDate.setOnClickListener(this);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(scheduleType.equals(getString(R.string.selectDays))  && !NotCheckedAnyDays()){
+                    Toast.makeText(CreateMedicineAlarmActivity.this,"Select at least one Day of Week",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(et1Hour!=-1 && et1Minute!=-1){
+                        scheduleAlarm(et1Hour,et1Minute,Float.parseFloat(etDose1.getText().toString()));
+                    }
+                    if(et2Hour!=-1 && et2Minute!=-1){
+                        scheduleAlarm(et2Hour,et2Minute,Float.parseFloat(etDose2.getText().toString()));
+                    }
+                    if(et3Hour!=-1 && et3Minute!=-1){
+                        scheduleAlarm(et3Hour,et3Minute,Float.parseFloat(etDose3.getText().toString()));
+                    }
+                    if(et4Hour!=-1 && et4Minute!=-1){
+                        scheduleAlarm(et4Hour,et4Minute,Float.parseFloat(etDose4.getText().toString()));
+                    }
+                    finish();
+                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
 
 
+            }
+        });
+
+    }
+
+    private boolean NotCheckedAnyDays(){
+        if(recurring) {
+            if (!(chbMon.isChecked() && chbTue.isChecked() && chbWed.isChecked() && chbThu.isChecked() && chbFri.isChecked() && chbSat.isChecked() && chbSun.isChecked())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setLayoutVisibilty(boolean layout1Visibilty, boolean layout2Visibility, boolean layout3Visibility, boolean layout4Visibility) {
@@ -279,6 +428,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            et1Hour=hourOfDay;
+                            et1Minute=minute;
                             etTime1.setText(change12HourFormat(hourOfDay,minute));
                         }
                     }, et1Hour, et1Minute, false);
@@ -291,6 +442,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            et2Hour=hourOfDay;
+                            et2Minute=minute;
                             etTime2.setText(change12HourFormat(hourOfDay,minute));
                         }
                     }, et2Hour, et2Minute, false);
@@ -303,6 +456,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            et3Hour=hourOfDay;
+                            et3Minute=minute;
                             etTime3.setText(change12HourFormat(hourOfDay,minute));
                         }
                     }, et3Hour, et3Minute, false);
@@ -315,6 +470,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            et4Hour=hourOfDay;
+                            et4Minute=minute;
                             etTime4.setText(change12HourFormat(hourOfDay,minute));
                         }
                     }, et4Hour, et4Minute, false);
@@ -322,47 +479,90 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
         }
 
 
-        if (v ==etStartDate) {
-
-
-
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            etStartDate.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
-                        }
-
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.show();
-        }
-        if (v ==etEndDate) {
-
-
-
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            etEndDate.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
-                        }
-
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.show();
-        }
+//        if (v ==etStartDate) {
+//
+//
+//
+//
+//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+//                    new DatePickerDialog.OnDateSetListener() {
+//
+//                        @Override
+//                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            etStartDate.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
+//                        }
+//
+//                    }, mYear, mMonth, mDay);
+//            datePickerDialog.show();
+//        }
+//        if (v ==etEndDate) {
+//
+//
+//
+//
+//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+//                    new DatePickerDialog.OnDateSetListener() {
+//
+//                        @Override
+//                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                            etEndDate.setText(dayOfMonth + "-" + (month + 1) + "-" + year);
+//                        }
+//
+//                    }, mYear, mMonth, mDay);
+//            datePickerDialog.show();
+//        }
     }
 
+
+
+    private void scheduleAlarm(int hour,int minute,float dose) {
+        int alarmId = new Random().nextInt(Integer.MAX_VALUE);
+
+        MedicineAlarm alarm = new MedicineAlarm(
+                alarmId,
+                etMedicineName.getText().toString(),
+                medicineType,
+                dose,
+                hour,
+                minute,
+                daysInterval,
+                true,
+                recurring,
+                chbMon.isChecked(),
+                chbTue.isChecked(),
+                chbWed.isChecked(),
+                chbThu.isChecked(),
+                chbFri.isChecked(),
+                chbSat.isChecked(),
+                chbSun.isChecked()
+        );
+//        Alarm alarm = new Alarm(
+//                alarmId,
+//                TimePickerUtil.getTimePickerHour(timePicker),
+//                TimePickerUtil.getTimePickerMinute(timePicker),
+//                title.getText().toString(),
+//                true,
+//                recurring.isChecked(),
+//                mon.isChecked(),
+//                tue.isChecked(),
+//                wed.isChecked(),
+//                thu.isChecked(),
+//                fri.isChecked(),
+//                sat.isChecked(),
+//                sun.isChecked()
+//        );
+
+//        createAlarmViewModel.insert(alarm);
+//
+        alarm.schedule(this);
+    }
     public String change12HourFormat(int hourOfDay, int minute){
         String result="";
-        if(hourOfDay<12){
-            result=hourOfDay+":"+minute+" am";
+        if(hourOfDay<=12){
+            result=hourOfDay+":"+(minute < 10 ? ("0" + minute) : minute)+ " " + ((hourOfDay >= 12) ? "PM" : "AM");
         }
-        else if(hourOfDay>=12){
-            result=hourOfDay-12+":"+minute+" pm";
+        else if(hourOfDay>12){
+            result=hourOfDay%12+":"+(minute < 10 ? ("0" + minute) : minute)+ " " + ((hourOfDay >= 12) ? "PM" : "AM");
         }
         return result;
     }
