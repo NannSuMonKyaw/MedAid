@@ -1,4 +1,4 @@
-package com.nsmk.thesis.medaid.broadcastreceiver;
+package com.nsmk.thesis.medaid.service;
 
 import android.content.Intent;
 import android.os.IBinder;

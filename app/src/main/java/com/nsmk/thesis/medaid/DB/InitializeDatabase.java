@@ -8,19 +8,22 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.nsmk.thesis.medaid.DAO.MedicineAlarmDAO;
 import com.nsmk.thesis.medaid.DAO.MedicineDAO;
 import com.nsmk.thesis.medaid.model.Medicine;
+import com.nsmk.thesis.medaid.model.MedicineAlarm;
 
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {Medicine.class}, version = 1,exportSchema = false)
+@Database(entities = {Medicine.class, MedicineAlarm.class}, version = 1,exportSchema = false)
 public abstract class InitializeDatabase extends RoomDatabase {
 
     static String DB_NAME = "my-database";
     private static InitializeDatabase INSTANCE;
 
     public abstract MedicineDAO getMedicineDAO();
+    public abstract MedicineAlarmDAO getMedicineAlarmDAO();
 
     public static InitializeDatabase getInstance(Context context) {
         if (INSTANCE == null) {

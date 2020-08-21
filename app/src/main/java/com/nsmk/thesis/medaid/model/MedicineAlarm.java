@@ -117,6 +117,29 @@ public class MedicineAlarm {
         return title;
     }
 
+    public int getDaysInterval() {
+        return daysInterval;
+    }
+
+    public void setDaysInterval(int daysInterval) {
+        this.daysInterval = daysInterval;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public float getDose() {
+        return dose;
+    }
+
+    public void setDose(float dose) {
+        this.dose = dose;
+    }
 
     public void schedule(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -157,6 +180,7 @@ public class MedicineAlarm {
 
         if(daysInterval==0 && !recurring){
             //alarm only once
+            Log.i("alarm", "repeat only once    set exact");
             alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
@@ -166,10 +190,12 @@ public class MedicineAlarm {
         else if(daysInterval!=0){
             final long INTERVAL_MILLIS;
             if(!recurring){
+                Log.i("alarm", "repeat alarm at N-interval days  setrepeating");
                 //repeat alarm at N-interval days
                 INTERVAL_MILLIS = 24 * 60 * 60 * 1000 * daysInterval;
             }
             else {
+                Log.i("alarm", "repeat alarm at selected days of week  setrepeating");
                 //repeat alarm at selected days of week
                 INTERVAL_MILLIS = 24 * 60 * 60 * 1000;
             }

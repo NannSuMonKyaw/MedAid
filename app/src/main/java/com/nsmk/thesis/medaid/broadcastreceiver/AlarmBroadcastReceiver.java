@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.nsmk.thesis.medaid.service.AlarmService;
+import com.nsmk.thesis.medaid.service.RescheduleAlarmsService;
 
 import java.util.Calendar;
 
@@ -34,9 +36,11 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             String toastText = String.format("Alarm Received");
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             if (!intent.getBooleanExtra(RECURRING, false)) {
+                Toast.makeText(context, toastText+"1", Toast.LENGTH_LONG).show();
                 startAlarmService(context, intent);
             } {
                 if (alarmIsToday(intent)) {
+                    Toast.makeText(context, toastText+"2", Toast.LENGTH_LONG).show();
                     startAlarmService(context, intent);
                 }
             }
@@ -82,8 +86,11 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void startAlarmService(Context context, Intent intent) {
+        Log.i("alarm","startAlarmService");
         Intent intentService = new Intent(context, AlarmService.class);
         intentService.putExtra(TITLE, intent.getStringExtra(TITLE));
+        intentService.putExtra(DOSE,intent.getFloatExtra(DOSE, (float) 1.0));
+        intentService.putExtra(TYPE,intent.getStringExtra(TYPE));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intentService);
         } else {
@@ -92,6 +99,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void startRescheduleAlarmsService(Context context) {
+        Log.i("alarm","startRescheduleAlarmsService");
         Intent intentService = new Intent(context, RescheduleAlarmsService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intentService);

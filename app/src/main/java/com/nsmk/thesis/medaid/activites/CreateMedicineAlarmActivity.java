@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.nsmk.thesis.medaid.DB.InitializeDatabase;
 import com.nsmk.thesis.medaid.R;
 import com.nsmk.thesis.medaid.common.BaseActivity;
 import com.nsmk.thesis.medaid.model.MedicineAlarm;
@@ -121,7 +122,7 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
 //
 //    @BindView(R.id.et_end_date)
 //    EditText etEndDate;
-
+    InitializeDatabase dbHelper;
     private String medicineName,medicineType, frequency,scheduleType;
     ArrayAdapter<CharSequence> medicineTypeAdapter, medicationFrequencyAdapter,scheduleTypeAdapter;
     private int daysInterval=0;
@@ -143,6 +144,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("New Medicine");
+
+        dbHelper= InitializeDatabase.getInstance(this);
 
 //        toolbar.setTitle("New medication");
 //        toolbar.setNavigationIcon(R.drawable.icon_back_48);
@@ -166,6 +169,9 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 medicineType = parent.getItemAtPosition(position).toString();
+                if(medicineType.equals("Inhaler")){
+                    medicineType="puff";
+                }
             }
 
             @Override
@@ -344,13 +350,15 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
         etTime2.setOnClickListener(this);
         etTime3.setOnClickListener(this);
         etTime4.setOnClickListener(this);
-//        etStartDate.setOnClickListener(this);
-//        etEndDate.setOnClickListener(this);
 
+
+
+        //Schedule alarm and add data to database
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(scheduleType.equals(getString(R.string.selectDays))  && !NotCheckedAnyDays()){
+                if(scheduleType.equals(getString(R.string.selectDays)) && NotCheckedAnyDays()){
+                    Log.i("alarm","btnsave warning message");
                     Toast.makeText(CreateMedicineAlarmActivity.this,"Select at least one Day of Week",Toast.LENGTH_LONG).show();
                 }
                 else{
@@ -367,8 +375,6 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                         scheduleAlarm(et4Hour,et4Minute,Float.parseFloat(etDose4.getText().toString()));
                     }
                     finish();
-                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
                 }
 
 
@@ -379,11 +385,15 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
 
     private boolean NotCheckedAnyDays(){
         if(recurring) {
-            if (!(chbMon.isChecked() && chbTue.isChecked() && chbWed.isChecked() && chbThu.isChecked() && chbFri.isChecked() && chbSat.isChecked() && chbSun.isChecked())) {
+          if(chbMon.isChecked() || chbTue.isChecked() || chbWed.isChecked() || chbThu.isChecked() || chbFri.isChecked() || chbSat.isChecked() || chbSun.isChecked()){
+                return false;
+            }
+            else{
                 return true;
             }
         }
-        return false;
+
+        return true;
     }
 
     private void setLayoutVisibilty(boolean layout1Visibilty, boolean layout2Visibility, boolean layout3Visibility, boolean layout4Visibility) {
@@ -536,22 +546,8 @@ public class CreateMedicineAlarmActivity extends BaseActivity implements View.On
                 chbSat.isChecked(),
                 chbSun.isChecked()
         );
-//        Alarm alarm = new Alarm(
-//                alarmId,
-//                TimePickerUtil.getTimePickerHour(timePicker),
-//                TimePickerUtil.getTimePickerMinute(timePicker),
-//                title.getText().toString(),
-//                true,
-//                recurring.isChecked(),
-//                mon.isChecked(),
-//                tue.isChecked(),
-//                wed.isChecked(),
-//                thu.isChecked(),
-//                fri.isChecked(),
-//                sat.isChecked(),
-//                sun.isChecked()
-//        );
 
+        dbHelper.getMedicineAlarmDAO().insertMedicineAlarm(alarm);
 //        createAlarmViewModel.insert(alarm);
 //
         alarm.schedule(this);
